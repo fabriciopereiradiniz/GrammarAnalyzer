@@ -8,7 +8,10 @@ public class Solver {
 	ArrayList<Character> geradores = new ArrayList<Character>();
 	ArrayList<Producao> producoesList = new ArrayList<>();
 	ArrayList<Producao> prodVazias = new ArrayList<>();
-	String palavraSerTestada; // essa eh a palavra final, ela eh quebrada em partes compondo a palavraSerTestadaArray, assim posso verificar facilmente.
+	char esquerda;
+	char direita;
+	String palavraSerTestada; // essa eh a palavra final, ela eh quebrada em partes compondo a
+								// palavraSerTestadaArray, assim posso verificar facilmente.
 	private char[] palavraSerTestadaArray;
 	char SimboloPartida;
 
@@ -30,20 +33,20 @@ public class Solver {
 		}
 		return producoesCorrespondentes; // Retorna a lista de produções correspondentes
 	}
-	
-	public String encontrarProducaoComTerminaisAsteriscoEspecifico(ArrayList<Producao> producoesList, char geradorDesejado) {
-	    for (Producao producao : producoesList) {
-	        if (producao.getGerador() == geradorDesejado && producao.getTerminalEsquerda() == '*' && producao.getTerminalDireita() == '*') {
-	            return producao.getGerador() + ">" + "**"; // Retorna a produção no formato desejado
-	        }
-	    }
-	    return null; // Se nenhuma produção corresponder, retorna null
+
+	public String encontrarProducaoComTerminaisAsteriscoEspecifico(ArrayList<Producao> producoesList,
+			char geradorDesejado) {
+		for (Producao producao : producoesList) {
+			if (producao.getGerador() == geradorDesejado && producao.getTerminalEsquerda() == '*'
+					&& producao.getTerminalDireita() == '*') {
+				return producao.getGerador() + ">" + "**"; // Retorna a produção no formato desejado
+			}
+		}
+		return null; // Se nenhuma produção corresponder, retorna null
 	}
 
-
-
-
 	public boolean doIt() {
+		System.out.println("comecou");
 		Stack<AgrupamentoProducoes> stackProducoes = new Stack<>();
 		geradores.add(SimboloPartida);
 		int auxPalavra = 0;
@@ -61,27 +64,27 @@ public class Solver {
 				charArray[i] = terminais.get(i);
 			}
 			palavraSendoProduzida = new String(charArray);
+
 			if (producaoNaoTestada != null) {
 
-				char direita = producaoNaoTestada.getTerminalDireita();
-				char esquerda = producaoNaoTestada.getTerminalEsquerda();
-				geradores.add(direita);
-				terminais.add(esquerda);
-				auxTestezada = encontrarProducoesParaNo(geradores.get(geradores.size() - 1));
+				direita = producaoNaoTestada.getTerminalDireita();
+				esquerda = producaoNaoTestada.getTerminalEsquerda();
 
-				agrupamento = new AgrupamentoProducoes(auxTestezada);
+				if (esquerda == '$') {
+					System.out.println("detectou que eh pulavel essa desgraça");
+					System.out.println("vai olhar p qual: " + geradores.get(geradores.size() - 1));
+					geradores.add(direita);
+				} else {
 
-				producaoNaoTestada = agrupamento.encontrarProducaoNaoTestada();
-
-				stackProducoes.push(agrupamento);
-
-				 charArray = new char[terminais.size()];
-				for (int i = 0; i < terminais.size(); i++) {
-					charArray[i] = terminais.get(i);
+					geradores.add(direita);
+					terminais.add(esquerda);
+					System.out.println("vai olhar p qual: " + geradores.get(geradores.size() - 1));
 				}
-				palavraSendoProduzida = new String(charArray);
 
+				System.out.println("o meu auxiliar da palavra eh " + palavraSerTestadaArray[auxPalavra]
+						+ " e meu terminal ultimo é: " + terminais.get(terminais.size() - 1));
 				if (palavraSerTestadaArray[auxPalavra] != terminais.get(terminais.size() - 1)) {
+
 					geradores.remove(geradores.size() - 1);
 					terminais.remove(terminais.size() - 1);
 
@@ -91,11 +94,26 @@ public class Solver {
 					auxPalavra++;
 				}
 
+				auxTestezada = encontrarProducoesParaNo(geradores.get(geradores.size() - 1));
+
+				agrupamento = new AgrupamentoProducoes(auxTestezada);
+
+				producaoNaoTestada = agrupamento.encontrarProducaoNaoTestada();
+
+				stackProducoes.push(agrupamento);
+
+				charArray = new char[terminais.size()];
+				for (int i = 0; i < terminais.size(); i++) {
+					charArray[i] = terminais.get(i);
+				}
+				palavraSendoProduzida = new String(charArray);
+				// talvez tenha que mudar algo aqui, fique atento!!
+
 			} else {
 
 				if (agrupamento.getTamanho() == 1) {
 
-					 charArray = new char[terminais.size()];
+					charArray = new char[terminais.size()];
 					for (int i = 0; i < terminais.size(); i++) {
 						charArray[i] = terminais.get(i);
 					}
@@ -105,42 +123,70 @@ public class Solver {
 					palavraSendoProduzida = new String(charArray);
 
 				} else {
-					geradores.remove(geradores.size() - 1);
-					terminais.remove(terminais.size() - 1);
-					System.out.println("removeu uma producao na pilha pois ja tinha testado todas possibilidades");
-					stackProducoes.pop();
-					auxPalavra--;
-					agrupamento = stackProducoes.peek();
+
+					if (esquerda == '$') {
+						geradores.remove(geradores.size() - 1);
+						System.out.println("removeu uma producao na pilha pois ja tinha testado todas possibilidades");
+						stackProducoes.pop();
+						// auxPalavra--; essa alteracao acho que vai ficar!
+						agrupamento = stackProducoes.peek();
+					} else {
+						geradores.remove(geradores.size() - 1);
+						terminais.remove(terminais.size() - 1);
+						System.out.println("removeu uma producao na pilha pois ja tinha testado todas possibilidades");
+						stackProducoes.pop();
+						auxPalavra--;
+						agrupamento = stackProducoes.peek();
+					}
 
 				}
 
 			}
 
 		}
-		
+
+		System.out.print(terminais);
+		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX55");
+		System.out.print(geradores);
+		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX55");
+		char[] charArray = new char[terminais.size()];
+		for (int i = 0; i < terminais.size(); i++) {
+			charArray[i] = terminais.get(i);
+		}
+		palavraSendoProduzida = new String(charArray);
+		System.out.println(palavraSendoProduzida);
+		System.out.println(palavraSerTestada);
+
+		if (palavraSerTestada.length() == 1) {
+			if (palavraSerTestada == palavraSendoProduzida) {
+				return true;
+			}
+		}
+
 		if (!palavraSerTestada.equals(palavraSendoProduzida)) {
 			System.out.println("Deu ruim!");
 			return false;
 		} else {
 
+			String producaoComAsteriscos = encontrarProducaoComTerminaisAsteriscoEspecifico(prodVazias,
+					geradores.get(geradores.size() - 2));
 
-		    
-		    String producaoComAsteriscos = encontrarProducaoComTerminaisAsteriscoEspecifico(prodVazias,geradores.get(geradores.size()-2));
+			if (producaoComAsteriscos != null) {
+				System.out.println("A palavra foi produzida com sucesso!");
 
-		    if (producaoComAsteriscos != null) {
-			    System.out.println("A palavra foi produzida com sucesso!");
+				for (int i = 0; i < (geradores.size() - 2); i++) {// tirar esse -2 dps VERFICIAR SE TA IMPRIMINDO O **
+					// VERIFICAR SE IMPRIME O **
 
-			    for(int i=0;i<(geradores.size()-2);i++) {//tirar esse -2 dps  VERFICIAR SE TA IMPRIMINDO O **
-			    	//VERIFICAR SE IMPRIME O **
-			    	
-			    	// aqui ele ta duplicando a ultima producao, sendo assim eu verifico se o penultimo gerador tem um C>** ou algo assim pra fazer o aceite
-			    	// se nao eu n dou aceite e retorno este problema
-			    	System.out.println(geradores.get(i)+">"+terminais.get(i)+geradores.get(i+1));
-			    }
-		        System.out.println(producaoComAsteriscos);; // Método para imprimir informações da produção
-		    } else {
-		        return false; // DEIXAR OU TIRAR ISTO AQUI
-		    }
+					// aqui ele ta duplicando a ultima producao, sendo assim eu verifico se o
+					// penultimo gerador tem um C>** ou algo assim pra fazer o aceite
+					// se nao eu n dou aceite e retorno este problema
+					System.out.println(geradores.get(i) + ">" + terminais.get(i) + geradores.get(i + 1));
+				}
+				System.out.println(producaoComAsteriscos);
+				; // Método para imprimir informações da produção
+			} else {
+				return false; // DEIXAR OU TIRAR ISTO AQUI
+			}
 			return true;
 		}
 	}

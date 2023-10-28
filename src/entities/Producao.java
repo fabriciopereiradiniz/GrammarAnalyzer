@@ -52,6 +52,7 @@ public class Producao {
 		System.out.println("Terminal Esquerda: " + terminalEsquerda);
 		System.out.println("Terminal Direita: " + terminalDireita);
 		System.out.println("É transicao?: "+ transicao);
+		System.out.println("já usado?:"+testada);
 		System.out.println("====================================");
 	}
 

@@ -19,11 +19,14 @@ public class AgrupamentoProducoes {
 				lastUsed = producao;
 				return producao; 
 			}
-		}
-		System.out.println("Retornou null, se tudo ocorreu bem é porque não tem mais produções não testadas.");
+		}   
 		for (Producao producao : elementos) {
-			producao.imprimirProducao();
-		}
+	        producao.imprimirProducao();
+	    }
+		System.out.println("Retornou null, se tudo ocorreu bem é porque não tem mais produções não testadas de ");
+	    for (Producao producao : elementos) {
+	        producao.imprimirProducao();
+	    }
 		return null; 
 	}
 
