@@ -4,8 +4,21 @@
 
 ## Compilation and Execution of the Program
 
+<div align="left">
 Make sure you have the Java Development Kit (JDK) installed on your machine. Open a terminal or command prompt and navigate to the directory where the program folder `scr` is located.
-After compilation of the archives, execute the `Program`.
+
+Compile the source code by entering the following command:
+
+`javac entities/Simulator.java application/Program.java`
+
+After compilation, execute the program by typing the following command:
+
+`java application.Program`
+</div>
+
+<div align="right">
+  <img src="https://i.imgur.com/wu5eh6H.gif" alt="java" width="150">
+</div>
 
 ## How to Use
 
