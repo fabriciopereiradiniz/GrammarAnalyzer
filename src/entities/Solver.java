@@ -85,24 +85,31 @@ public class Solver {
 				esquerda = producaoNaoTestada.getTerminalEsquerda();
 
 				if (esquerda == '$') {
-					System.out.println("detectou que eh pulavel essa desgraça");
-					System.out.println("vai olhar p qual: " + geradores.get(geradores.size() - 1));
+				//	System.out.println("detectou que eh pulavel essa desgraça");
+				//	System.out.println("vai olhar p qual: " + geradores.get(geradores.size() - 1));
 					geradores.add(direita);
-
+					palavraSup.add(esquerda);
 					stackProducoes.push(agrupamento);
 
 					auxTestezada = encontrarProducoesParaNo(geradores.get(geradores.size() - 1));
-					System.out.println("ta pegando?" + geradores.get(geradores.size() - 1));
+				//	System.out.println("ta pegando?" + geradores.get(geradores.size() - 1));
 					agrupamento = new AgrupamentoProducoes(auxTestezada);
 					// agrupamento.imprimirProducaoDeElementos();// remover isto dps
 					producaoNaoTestada = agrupamento.encontrarProducaoNaoTestada();
 					direita = producaoNaoTestada.getTerminalDireita();
 					esquerda = producaoNaoTestada.getTerminalEsquerda();
-					geradores.add(direita);
-					terminais.add(esquerda); // tem que colocar o negocio do $$$$ aqui pra evitar recursividade
-					palavraSup.add(esquerda);
-					// se pa ta aq o PROBLEMAO
-					// producaoNaoTestada = agrupamento.encontrarProducaoNaoTestada();
+					
+					if(esquerda=='$') {
+						geradores.add(direita);
+						 // tem que colocar o negocio do $$$$ aqui pra evitar recursividade
+						palavraSup.add(esquerda);
+					} else {
+						geradores.add(direita);
+						terminais.add(esquerda); // tem que colocar o negocio do $$$$ aqui pra evitar recursividade
+						palavraSup.add(esquerda);
+					}
+					
+					
 
 				} else {
 

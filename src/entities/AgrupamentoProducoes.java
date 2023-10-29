@@ -15,21 +15,12 @@ public class AgrupamentoProducoes {
 		for (Producao producao : elementos) {
 			if (!producao.isTestada()) {
 				producao.setTestada(true);
-				// System.out.println("Achou o caractere desejado");
 
-				// producao.imprimirProducao();// DEBUG RETIRAR DEPOIS
 				lastUsed = producao;
 				return producao;
 			}
 		}
-		// for (Producao producao : elementos) {
-		// producao.imprimirProducao();
-		// }
-		// System.out.println("Retornou null, se tudo ocorreu bem é porque não tem mais
-		// produções não testadas de ");
-		// for (Producao producao : elementos) {
-		// producao.imprimirProducao();
-		// }
+
 		return null;
 	}
 

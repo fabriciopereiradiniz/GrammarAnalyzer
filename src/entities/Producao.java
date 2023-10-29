@@ -49,14 +49,6 @@ public class Producao {
 
 	public void imprimirProducao() {
 		System.out.println(gerador + ">" + terminalEsquerda + terminalDireita);
-		/*
-		 * System.out.println("Gerador: " + gerador);
-		 * System.out.println("Terminal Esquerda: " + terminalEsquerda);
-		 * System.out.println("Terminal Direita: " + terminalDireita);
-		 * System.out.println("É transicao?: " + transicao);
-		 * System.out.println("já usado?:" + testada);
-		 * System.out.println("====================================");
-		 */
 	}
 
 	public boolean isTransicao() {

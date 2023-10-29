@@ -18,12 +18,13 @@ public class Program {
 		boolean desvio = false; // usado pra controlar a logica de fluxo do $$ pq tava tendo alguns probleminhas
 		// PRA LEVAR PRO VAZIO É REPRESENTADO NESTE FORMADO S>**
 		// PRA LEVAR ONDE NAO TEM TERMINAL É PRESENTADO DESTA MANEIRA S>$S OU S>S$ ( o
-		// terminal é repre
+		System.out.println("Variavel sem terminal eh no modelo S>$A, variavel pro vazio eh no modelo S>**");	
 		System.out.println("Digite 0 para GLUE ou 1 para GLUD");
 		int glueOrGlud = sc.nextInt();
 
 		System.out.println("Digite a quantidade de variáveis <V>");
 		int quantv = sc.nextInt();
+		variaveis.add('*');
 		for (int i = 0; i < quantv; i++) {
 			System.out.println("Digite a " + (i + 1) + "ª variável:");
 			variaveis.add(sc.next().charAt(0));
@@ -31,6 +32,7 @@ public class Program {
 
 		System.out.println("Digite a quantidade de caracteres no alfabeto <T>");
 		int quantt = sc.nextInt();
+		alfabeto.add('*');
 		for (int i = 0; i < quantt; i++) {
 			System.out.println("Digite o " + (i + 1) + " caractere do alfabeto:");
 			alfabeto.add(sc.next().charAt(0));
@@ -129,15 +131,9 @@ public class Program {
 		String palavraSerTestada = sc.next();
 		char[] palavraSerTestadaArray = palavraSerTestada.toCharArray();
 
-		/*
-		 * for (Producao producao : producoesList) { producao.imprimirProducao(); }
-		 */
-
-		// crio um novo solver que onde a logica eh aplicada passando tudo por
-		// parametros para serem trabalhados lá dentro da calsse
 		Solver solver = new Solver(producoesList, SimboloPartida, palavraSerTestadaArray, palavraSerTestada, prodVazias,
 				glueOrGlud);
-		// nn sei se tem necessidade disso aqui ( remover ? )
+		
 		solver.doIt();
 
 		sc.close();
