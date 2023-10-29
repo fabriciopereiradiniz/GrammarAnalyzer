@@ -17,7 +17,7 @@ After compilation of the archives, execute the `Program`.
 4. Enter the number of characters in the alphabet <T> and the characters.
 5. Specify the starting symbol <S>.
 6. Enter the number of production rules.
-7. Provide each production rule in the format A>B, where A is a variable, and B is a sequence of terminals and variables.
+7. Provide each production rule in the format A > B, where A is a variable, and B is a sequence of terminals and variables.
 8. - For GLUE grammar, use the format A>B.
    - For GLUD grammar, use the format B>A.
 9. Input the word you want to test against the grammar.
