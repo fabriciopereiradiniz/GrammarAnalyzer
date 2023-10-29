@@ -9,6 +9,7 @@ After compilation of the archives, execute the `Program`.
 
 ## How to Use
 
+**IMPORTANT: PLEASE READ THE INSTRUCTIONS ON THE FIRST LINE OF THE PROGRAM EXECUTION!**
 1. Compile and run the Program class.
 2. You will be prompted to choose between GLUE (0) and GLUD (1) grammars.
 3. Enter the number of variables `<V>` and the variables themselves.
