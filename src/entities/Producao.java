@@ -6,17 +6,19 @@ public class Producao {
 	private char terminalDireita;
 	private boolean testada;
 	private boolean transicao;
+	private boolean finalista;
 
 	public char getGerador() {
 		return gerador;
 	}
 
-	public Producao(char gerador, char terminalEsquerda, char terminalDireita, boolean transicao) {
+	public Producao(char gerador, char terminalEsquerda, char terminalDireita, boolean transicao,boolean finalista) {
 		this.gerador = gerador;
 		this.terminalEsquerda = terminalEsquerda;
 		this.terminalDireita = terminalDireita;
 		this.testada = false;
 		this.transicao = transicao;
+		this.finalista = finalista;
 	}
 
 	public void setGerador(char gerador) {
@@ -49,6 +51,8 @@ public class Producao {
 
 	public void imprimirProducao() {
 		System.out.println(gerador + ">" + terminalEsquerda + terminalDireita);
+		System.out.println("eh transicao:"+transicao);
+		System.out.println("eh finalista:"+finalista);
 	}
 
 	public boolean isTransicao() {
@@ -57,6 +61,14 @@ public class Producao {
 
 	public void setTransicao(boolean transicao) {
 		this.transicao = transicao;
+	}
+
+	public boolean isFinalista() {
+		return finalista;
+	}
+
+	public void setFinalista(boolean finalista) {
+		this.finalista = finalista;
 	}
 
 }

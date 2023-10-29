@@ -13,18 +13,22 @@ public class Program {
 		ArrayList<Producao> producoesList = new ArrayList<>(); // recebe as producoes que dps sao passadas por parametro
 		ArrayList<Character> variaveis = new ArrayList<>(); // usado pra verificacao ( contains )
 		ArrayList<Character> alfabeto = new ArrayList<>(); // usado pra verificacao ( contains )
-		ArrayList<Producao> prodVazias = new ArrayList<>(); // usado pra logica de completar e n deixar o programa
-															// aceitar sem fechar todas variaveis
-		boolean desvio = false; // usado pra controlar a logica de fluxo do $$ pq tava tendo alguns probleminhas
-		// PRA LEVAR PRO VAZIO É REPRESENTADO NESTE FORMADO S>**
-		// PRA LEVAR ONDE NAO TEM TERMINAL É PRESENTADO DESTA MANEIRA S>$S OU S>S$ ( o
-		System.out.println("Variavel sem terminal eh no modelo S>$A, variavel pro vazio eh no modelo S>**");	
+		ArrayList<Producao> prodVazias = new ArrayList<>(); // usado pra logica de completar e n deixar o programa aceitar sem fechar todas variaveis
+		ArrayList<Producao> prodFinalista = new ArrayList<>(); // usado pra logica de completar e n deixar o programa aceitar sem fechar todas variaveis
+		boolean desvio = false; // usado pra controlar a logica de fluxo do $$ pq tava tendo alguns probleminh
+		boolean desvio2 = false;//usado pro fluxo dos finalistas
+		System.out.println("Variavel sem terminal eh no modelo S>$A, variavel pro vazio eh no modelo S>**, variavel gerando apenas terminal é no modelo S>a#");
 		System.out.println("Digite 0 para GLUE ou 1 para GLUD");
 		int glueOrGlud = sc.nextInt();
 
 		System.out.println("Digite a quantidade de variáveis <V>");
 		int quantv = sc.nextInt();
 		variaveis.add('*');
+		alfabeto.add('$');
+		alfabeto.add('*');
+		variaveis.add('$');
+		alfabeto.add('#');
+		variaveis.add('#');
 		for (int i = 0; i < quantv; i++) {
 			System.out.println("Digite a " + (i + 1) + "ª variável:");
 			variaveis.add(sc.next().charAt(0));
@@ -66,6 +70,13 @@ public class Program {
 					terminalEsquerda = direita.charAt(0);
 					terminalDireita = direita.charAt(1);
 					// verifica se eh uma "transicao" que é quando eu jogo de variavel pra variavel
+
+					if (terminalDireita == '#') {
+						desvio2 = true;
+					} else {
+						desvio2 = false;
+					}
+
 					if (terminalEsquerda == '$' || terminalDireita == '$') {
 						desvio = true;
 					} else {
@@ -75,6 +86,12 @@ public class Program {
 				} else {
 					terminalEsquerda = direita.charAt(1);
 					terminalDireita = direita.charAt(0);
+					if (terminalDireita == '#') {//verifica se eh um "finalista", ou seja pode fechar a palavra 
+						desvio2 = true;
+					} else {
+						desvio2 = false;
+					}
+
 					// verifica se eh uma "transicao" que é quando eu jogo de variavel pra variavel
 					if (terminalEsquerda == '$' || terminalDireita == '$') {
 						desvio = true;
@@ -85,10 +102,17 @@ public class Program {
 				}
 
 				if (desvio == false) {
-					Producao producao = new Producao(gerador, terminalEsquerda, terminalDireita, false);
-					producoesList.add(producao);
+
+					if (desvio2 == true) {
+						Producao producao = new Producao(gerador, terminalEsquerda, terminalDireita, false, true);
+						prodFinalista.add(producao);
+					} else {
+						Producao producao = new Producao(gerador, terminalEsquerda, terminalDireita, false, false);
+						producoesList.add(producao);
+					}
+
 				} else {
-					Producao producao = new Producao(gerador, terminalEsquerda, terminalDireita, true);
+					Producao producao = new Producao(gerador, terminalEsquerda, terminalDireita, true, false);
 					producoesList.add(producao);
 				}
 
@@ -96,7 +120,7 @@ public class Program {
 				// cria pros **
 				terminalEsquerda = direita.charAt(0);
 				terminalDireita = direita.charAt(1);
-				Producao producao2 = new Producao(gerador, terminalEsquerda, terminalDireita, false);
+				Producao producao2 = new Producao(gerador, terminalEsquerda, terminalDireita, false, false);
 				prodVazias.add(producao2);
 
 			}
@@ -132,8 +156,8 @@ public class Program {
 		char[] palavraSerTestadaArray = palavraSerTestada.toCharArray();
 
 		Solver solver = new Solver(producoesList, SimboloPartida, palavraSerTestadaArray, palavraSerTestada, prodVazias,
-				glueOrGlud);
-		
+				glueOrGlud, prodFinalista);
+
 		solver.doIt();
 
 		sc.close();
